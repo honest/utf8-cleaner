@@ -48,4 +48,13 @@ describe UTF8Cleaner::Middleware do
       new_env['rack.input'].read.should == "foo=%FFbar%F8"
     end
   end
+
+  describe 'when rack.input is not URI encoded' do
+    it 'removes invalid UTF-8 sequences' do
+      not_uri_encoded = StringIO.new("data\xed\xe5\xed\xe0")
+      env.update('rack.input' => not_uri_encoded)
+      new_env = UTF8Cleaner::Middleware.new(nil).send(:sanitize_env, env)
+      new_env['rack.input'].read.should == 'data'
+    end
+  end
 end
