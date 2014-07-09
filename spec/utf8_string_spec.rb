@@ -22,6 +22,17 @@ module UTF8Cleaner
           expect(result).to eq(string)
         end
       end
+
+      context 'when string contains valid UTF-8 characters' do
+        let(:string) do
+          'Ja mahu jeści škło, jano mne ne škodzić.
+          私はガラスを食べられます。それは私を傷つけません'
+        end
+
+        it 'returns the string' do
+          expect(result).to eq(string)
+        end
+      end
     end
   end
 end
