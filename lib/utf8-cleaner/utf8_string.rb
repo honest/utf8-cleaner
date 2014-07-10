@@ -3,7 +3,7 @@ module UTF8Cleaner
     attr_accessor :data
 
     def initialize(data)
-      @data = data.force_encoding('UTF-8')
+      @data = (data.frozen? ? data.dup : data).force_encoding('UTF-8')
     end
 
     def cleaned
